@@ -8,4 +8,5 @@ I am in a hackathon where I must complete this project in 1 hour. We need expert
 * Build Tool: Turbopack for fast development
 * Language: TypeScript
 * MCP Servers: Convex + Playwright + Vercel for Claude Code
+* AI Integration: Claude API
 ##Project Description

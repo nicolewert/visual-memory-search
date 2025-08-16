@@ -1,0 +1,12 @@
+{
+  "env": {
+    "NEXT_PUBLIC_CONVEX_URL": "https://animated-eagle-799.convex.cloud",
+    "CONVEX_DEPLOYMENT": "prod:animated-eagle-799"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_CONVEX_URL": "https://animated-eagle-799.convex.cloud",
+      "CONVEX_DEPLOYMENT": "prod:animated-eagle-799"
+    }
+  }
+}
