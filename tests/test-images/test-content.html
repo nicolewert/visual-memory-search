@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Screenshot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: white;
+            margin: 0;
+            width: 800px;
+            height: 600px;
+        }
+        .header {
+            color: #2563eb;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #374151;
+        }
+        .button {
+            background: #10b981;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            margin: 10px 5px;
+        }
+        .error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #dc2626;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #10b981;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">User Dashboard - Login Required</div>
+    
+    <div class="content">
+        <p>Welcome to the admin panel. Please enter your credentials to continue.</p>
+        
+        <form>
+            <div style="margin: 10px 0;">
+                <label>Email Address:</label>
+                <input type="email" placeholder="user@example.com" style="width: 300px; padding: 8px; margin-left: 10px;">
+            </div>
+            
+            <div style="margin: 10px 0;">
+                <label>Password:</label>
+                <input type="password" placeholder="Enter password" style="width: 300px; padding: 8px; margin-left: 10px;">
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <button class="button" type="submit">Sign In</button>
+                <button class="button" type="button">Reset Password</button>
+                <button class="button" type="button">Create Account</button>
+            </div>
+        </form>
+        
+        <div class="error">
+            Error: Invalid login credentials. Please try again.
+        </div>
+        
+        <div class="success">
+            Success: Your account has been verified successfully!
+        </div>
+        
+        <div style="margin-top: 30px; font-size: 14px; color: #6b7280;">
+            <p>System Status: <span style="color: #10b981; font-weight: bold;">Online</span></p>
+            <p>Last Login: March 15, 2024 at 2:30 PM</p>
+            <p>Session ID: abc123def456</p>
+        </div>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #f3f4f6; border-radius: 8px;">
+            <h3>Quick Actions:</h3>
+            <ul>
+                <li>View Reports</li>
+                <li>Manage Users</li>
+                <li>System Settings</li>
+                <li>Export Data</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

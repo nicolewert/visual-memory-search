@@ -1,0 +1,101 @@
+const fs = require('fs');
+const path = require('path');
+
+// Create a simple SVG with readable text that can be converted to PNG
+const svgContent = `
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  
+  <!-- Header -->
+  <rect x="50" y="50" width="700" height="80" fill="#2563eb" rx="8"/>
+  <text x="400" y="100" text-anchor="middle" fill="white" font-size="24" font-family="Arial, sans-serif" font-weight="bold">
+    User Dashboard - Login Required
+  </text>
+  
+  <!-- Content area -->
+  <rect x="50" y="150" width="700" height="400" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" rx="8"/>
+  
+  <!-- Form elements -->
+  <text x="80" y="190" fill="#374151" font-size="18" font-family="Arial, sans-serif" font-weight="bold">
+    Welcome to admin panel
+  </text>
+  
+  <text x="80" y="220" fill="#6b7280" font-size="14" font-family="Arial, sans-serif">
+    Please enter your credentials to continue
+  </text>
+  
+  <!-- Input fields -->
+  <rect x="80" y="240" width="300" height="35" fill="white" stroke="#d1d5db" stroke-width="1" rx="4"/>
+  <text x="90" y="260" fill="#9ca3af" font-size="14" font-family="Arial, sans-serif">
+    user@example.com
+  </text>
+  
+  <rect x="80" y="285" width="300" height="35" fill="white" stroke="#d1d5db" stroke-width="1" rx="4"/>
+  <text x="90" y="305" fill="#9ca3af" font-size="14" font-family="Arial, sans-serif">
+    Enter password
+  </text>
+  
+  <!-- Buttons -->
+  <rect x="80" y="340" width="100" height="35" fill="#10b981" rx="6"/>
+  <text x="130" y="360" text-anchor="middle" fill="white" font-size="14" font-family="Arial, sans-serif" font-weight="bold">
+    Sign In
+  </text>
+  
+  <rect x="200" y="340" width="120" height="35" fill="#6b7280" rx="6"/>
+  <text x="260" y="360" text-anchor="middle" fill="white" font-size="14" font-family="Arial, sans-serif">
+    Reset Password
+  </text>
+  
+  <rect x="340" y="340" width="120" height="35" fill="#3b82f6" rx="6"/>
+  <text x="400" y="360" text-anchor="middle" fill="white" font-size="14" font-family="Arial, sans-serif">
+    Create Account
+  </text>
+  
+  <!-- Error message -->
+  <rect x="80" y="390" width="640" height="50" fill="#fee2e2" stroke="#fca5a5" stroke-width="1" rx="6"/>
+  <text x="100" y="415" fill="#dc2626" font-size="14" font-family="Arial, sans-serif" font-weight="bold">
+    Error: Invalid login credentials. Please try again.
+  </text>
+  
+  <!-- Success message -->
+  <rect x="80" y="450" width="640" height="50" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1" rx="6"/>
+  <text x="100" y="475" fill="#065f46" font-size="14" font-family="Arial, sans-serif" font-weight="bold">
+    Success: Your account has been verified successfully!
+  </text>
+  
+  <!-- Status info -->
+  <text x="80" y="520" fill="#374151" font-size="12" font-family="Arial, sans-serif">
+    System Status: <tspan fill="#10b981" font-weight="bold">Online</tspan>
+  </text>
+  
+  <text x="80" y="540" fill="#6b7280" font-size="12" font-family="Arial, sans-serif">
+    Quick Actions: View Reports, Manage Users, Export Data
+  </text>
+</svg>
+`;
+
+// Ensure directory exists
+const testImagesDir = path.join(__dirname, 'test-images');
+if (!fs.existsSync(testImagesDir)) {
+  fs.mkdirSync(testImagesDir, { recursive: true });
+}
+
+// Write the SVG file
+const svgPath = path.join(testImagesDir, 'search-test.svg');
+fs.writeFileSync(svgPath, svgContent);
+
+console.log('✅ Test SVG created:', svgPath);
+console.log('📝 This SVG contains clearly readable text for OCR testing including:');
+console.log('   - "User Dashboard - Login Required"');  
+console.log('   - "Welcome to admin panel"');
+console.log('   - "Sign In", "Reset Password", "Create Account" buttons');
+console.log('   - "Error: Invalid login credentials"');
+console.log('   - "Success: Your account has been verified"');
+console.log('   - "System Status: Online"');
+console.log('   - "View Reports, Manage Users, Export Data"');
+
+// Convert SVG to base64 PNG-like data URI for testing
+const base64SVG = Buffer.from(svgContent).toString('base64');
+const svgDataUri = `data:image/svg+xml;base64,${base64SVG}`;
+
+console.log('✅ SVG ready for conversion to PNG by browser/OCR systems');
