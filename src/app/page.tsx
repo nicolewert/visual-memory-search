@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { TaskList } from "@/components/TaskList"
+import { SearchDemo } from "@/components/SearchDemo"
+import { UploadZone } from "@/components/UploadZone"
 
 export default function Home() {
   return (
@@ -9,21 +10,21 @@ export default function Home() {
       <div className="container mx-auto px-4 py-16">
         <div className="text-center space-y-6 mb-16">
           <Badge variant="secondary" className="mb-4">
-            Hackathon Starter Template
+            Visual Memory Search
           </Badge>
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
-            Ready to Build
+            Search Your Screenshots
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A minimal Next.js starter with shadcn/ui components, Tailwind CSS, and Claude Code integration. 
-            Perfect for rapid hackathon development.
+            AI-powered visual search through your screenshots using OCR text extraction and visual descriptions. 
+            Upload images and search through their content instantly.
           </p>
           <div className="flex gap-4 justify-center">
             <Button size="lg">
-              Get Started
+              Upload Screenshots
             </Button>
             <Button variant="outline" size="lg">
-              View Components
+              Try Search Demo
             </Button>
           </div>
         </div>
@@ -31,56 +32,61 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           <Card>
             <CardHeader>
-              <CardTitle>⚡ Fast Development</CardTitle>
+              <CardTitle>🔍 AI-Powered Search</CardTitle>
               <CardDescription>
-                Turbopack-powered development with instant hot reloading
+                Advanced search through OCR text and visual descriptions
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                Pre-configured with Next.js 15, TypeScript, and Turbopack for the fastest development experience.
+                Search through your screenshots using natural language. Our AI extracts text and creates visual descriptions for comprehensive search.
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>🎨 Beautiful UI</CardTitle>
+              <CardTitle>📸 Smart Upload</CardTitle>
               <CardDescription>
-                shadcn/ui components with New York styling
+                Drag & drop screenshot processing
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                Pre-installed essential components like buttons, cards, forms, and more for rapid prototyping.
+                Upload screenshots and get instant OCR text extraction and AI-generated visual descriptions for searchable content.
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>🗄️ Convex Database</CardTitle>
+              <CardTitle>⚡ Real-time Results</CardTitle>
               <CardDescription>
-                Real-time, TypeScript-native database
+                Instant search with relevance scoring
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                Built-in Convex integration with MCP server for Claude Code database operations.
+                Get ranked search results instantly with confidence scores and match highlighting across text and visual content.
               </p>
             </CardContent>
           </Card>
         </div>
 
         <div className="mb-16">
-          <h2 className="text-2xl font-semibold text-center mb-8">Try the Convex Integration</h2>
-          <TaskList />
+          <h2 className="text-2xl font-semibold text-center mb-8">Upload Your Screenshots</h2>
+          <UploadZone />
+        </div>
+
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-center mb-8">Search Your Screenshots</h2>
+          <SearchDemo />
         </div>
 
         <div className="text-center space-y-4">
-          <h2 className="text-2xl font-semibold">Ready for Your Next Hackathon</h2>
+          <h2 className="text-2xl font-semibold">Visual Memory Made Searchable</h2>
           <p className="text-muted-foreground">
-            Start building immediately with this carefully crafted foundation
+            Never lose track of important information in your screenshots again
           </p>
         </div>
       </div>
