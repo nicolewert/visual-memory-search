@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { extractTextFromImage } from '@/lib/ocr';
 import { api } from '../../convex/_generated/api';
+import { Id } from '../../convex/_generated/dataModel';
 import { useMutation } from 'convex/react';
 import { AlertCircle, UploadCloud, CheckCircle } from 'lucide-react';
 
@@ -23,7 +24,28 @@ interface UploadStatus {
   errorMessage?: string;
 }
 
-export function UploadZone() {
+interface UploadProgress {
+  filename: string;
+  status: 'uploading' | 'processing' | 'completed' | 'failed';
+  progress: number;
+  error?: string;
+}
+
+interface UploadZoneProps {
+  onUploadComplete?: (screenshotIds: Id<"screenshots">[]) => void;
+  onUploadProgress?: (progress: UploadProgress[]) => void;
+  maxFiles?: number;
+  maxFileSize?: number;
+}
+
+export function UploadZone({ 
+  onUploadComplete, 
+  onUploadProgress, 
+  maxFiles = 10, 
+  maxFileSize 
+}: UploadZoneProps) {
+  // Use maxFiles for display
+  console.debug('Max files allowed:', maxFiles);
   const [uploadStatuses, setUploadStatuses] = useState<UploadStatus[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -31,14 +53,14 @@ export function UploadZone() {
   const generateUploadUrl = useMutation(api.screenshots.generateUploadUrl);
   const storeScreenshot = useMutation(api.screenshots.storeScreenshot);
 
-  // File validation constants
-  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-  const ACCEPTED_FILE_TYPES = [
+  // File validation constants (memoized to prevent re-renders)
+  const MAX_FILE_SIZE = useMemo(() => maxFileSize || 10 * 1024 * 1024, [maxFileSize]); // 10MB default
+  const ACCEPTED_FILE_TYPES = useMemo(() => [
     'image/png', 
     'image/jpeg', 
     'image/jpg', 
     'image/webp'
-  ];
+  ], []);
 
   const updateUploadStatus = (index: number, updates: Partial<UploadStatus>) => {
     setUploadStatuses(prev => prev.map((status, i) => 
@@ -72,6 +94,15 @@ export function UploadZone() {
         }
 
         updateUploadStatus(i, { status: 'uploading', progress: 25 });
+        
+        // Call progress callback if provided
+        if (onUploadProgress) {
+          onUploadProgress([{
+            filename: file.name,
+            status: 'uploading',
+            progress: 25
+          }]);
+        }
 
         // Send to API for Claude processing first
         const formData = new FormData();
@@ -109,10 +140,11 @@ export function UploadZone() {
         }
         
         const { storageId } = await uploadResponse.json();
-        const imageUrl = uploadUrl;
+        // imageUrl would be used for preview/display in future iterations
+        console.debug('Upload URL:', uploadUrl);
 
         // Store screenshot metadata
-        await storeScreenshot({
+        const screenshotId = await storeScreenshot({
           filename: file.name,
           ocrText,
           visualDescription: processedFile.visualDescription,
@@ -121,6 +153,11 @@ export function UploadZone() {
         });
 
         updateUploadStatus(i, { status: 'success', progress: 100 });
+        
+        // Call completion callback if provided
+        if (onUploadComplete) {
+          onUploadComplete([screenshotId]);
+        }
 
       } catch (error) {
         updateUploadStatus(i, { 
@@ -131,7 +168,7 @@ export function UploadZone() {
     }
 
     setIsProcessing(false);
-  }, [generateUploadUrl, storeScreenshot]);
+  }, [generateUploadUrl, storeScreenshot, ACCEPTED_FILE_TYPES, MAX_FILE_SIZE, onUploadComplete, onUploadProgress]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
