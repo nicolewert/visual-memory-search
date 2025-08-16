@@ -9,6 +9,7 @@ Generate a hackathon project context document from our plan. Format as markdown 
 * Build Tool: Turbopack
 * Language: TypeScript
 * MCP Servers: Convex + Playwright + Vercel for Claude Code
+* AI Integration: Claude API
 
 Please output a structured context document with:
 

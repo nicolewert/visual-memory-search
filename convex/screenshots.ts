@@ -103,6 +103,7 @@ export const listScreenshots = query({
   handler: async (ctx) => {
     const screenshots = await ctx.db
       .query("screenshots")
+      .withIndex("by_uploaded_at")
       .order("desc")
       .collect()
     
