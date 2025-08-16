@@ -19,6 +19,7 @@
     "test-integration": "node tests/integration/taskList.test.js",
     "test-upload": "node tests/integration/imageUpload.test.js",
     "demo-test": "node tests/integration/demoUpload.test.js",
+    "test-folder-upload": "node tests/integration/folderUpload.test.js",
     "ci-check": "node tests/runner.js"
   },
   "dependencies": {
