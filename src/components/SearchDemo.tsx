@@ -28,7 +28,7 @@ export const SearchDemo: React.FC = () => {
 
     try {
       const startTime = Date.now();
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}&limit=10`);
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}&limit=5`);
       const endTime = Date.now();
       
       if (!response.ok) {

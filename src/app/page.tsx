@@ -111,7 +111,7 @@ export default function Home() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
       
-      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=20`, {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&limit=5`, {
         signal: controller.signal
       });
       
