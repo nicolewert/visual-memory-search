@@ -117,8 +117,14 @@ export function UploadZone({
           throw new Error('Failed to process with Claude API');
         }
 
-        const { processedFiles } = await apiResponse.json();
+        const apiData = await apiResponse.json();
+        const processedFiles = apiData?.processedFiles || [];
         const processedFile = processedFiles[0];
+
+        // Validate that we have processed file data
+        if (!processedFile) {
+          throw new Error('No processed file data received from Claude API');
+        }
 
         updateUploadStatus(i, { status: 'processing', progress: 50 });
 
@@ -143,11 +149,11 @@ export function UploadZone({
         // imageUrl would be used for preview/display in future iterations
         console.debug('Upload URL:', uploadUrl);
 
-        // Store screenshot metadata
+        // Store screenshot metadata with fallback for visualDescription
         const screenshotId = await storeScreenshot({
           filename: file.name,
           ocrText,
-          visualDescription: processedFile.visualDescription,
+          visualDescription: processedFile.visualDescription || 'Image uploaded successfully',
           fileId: storageId,
           fileSize: file.size
         });

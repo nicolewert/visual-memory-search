@@ -12,7 +12,7 @@ export async function generateVisualDescription(imageBase64: string): Promise<st
     }
 
     const response = await anthropic.messages.create({
-      model: 'claude-3-sonnet-20240229',
+      model: 'claude-3-5-sonnet-20241022',
       max_tokens: 150,
       messages: [
         {
@@ -48,6 +48,15 @@ export async function generateVisualDescription(imageBase64: string): Promise<st
 }
 
 export async function fileToBase64(file: File): Promise<string> {
+  // Server-side conversion using Node.js Buffer
+  if (typeof window === 'undefined') {
+    // Server-side: Convert File to Buffer then to base64
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    return buffer.toString('base64')
+  }
+  
+  // Client-side: Use FileReader
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => {

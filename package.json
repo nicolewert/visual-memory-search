@@ -17,6 +17,8 @@
     "dev-full-with-playwright": "concurrently \"pnpm dev\" \"npx convex dev\"",
     "dev-bg": "concurrently --raw \"pnpm dev\" \"npx convex dev\"",
     "test-integration": "node tests/integration/taskList.test.js",
+    "test-upload": "node tests/integration/imageUpload.test.js",
+    "demo-test": "node tests/integration/demoUpload.test.js",
     "ci-check": "node tests/runner.js"
   },
   "dependencies": {
