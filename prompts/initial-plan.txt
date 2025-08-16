@@ -7,5 +7,5 @@ I am in a hackathon where I must complete this project in 1 hour. We need expert
 * Package Manager: pnpm
 * Build Tool: Turbopack for fast development
 * Language: TypeScript
-* MCP Servers: Convex (local) + Puppeteer (local) + Vercel (hosted) for Claude Code
+* MCP Servers: Convex + Playwright + Vercel for Claude Code
 ##Project Description

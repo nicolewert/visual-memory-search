@@ -71,6 +71,7 @@ export const SearchDemo: React.FC = () => {
               onSearch={handleSearch}
               placeholder="Search through your screenshots..."
               showShortcut={true}
+              isLoading={loading}
             />
             
             {responseTime > 0 && (

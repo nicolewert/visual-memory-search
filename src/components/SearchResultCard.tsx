@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { format } from 'date-fns';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { SearchResult, highlightSearchTerms } from '@/lib/search';
 import { ImageIcon, AlertCircle } from 'lucide-react';
 
 export interface SearchResultCardProps {
   result: SearchResult;
-  onClick?: () => void;
+  onClick: (result: SearchResult) => void;
   searchQuery?: string;
-  showConfidence?: boolean;
-  showMatchType?: boolean;
+  showConfidence?: boolean;  // default: true
+  showMatchType?: boolean;   // default: true
 }
 
 export const SearchResultCard: React.FC<SearchResultCardProps> = ({
@@ -29,18 +31,46 @@ export const SearchResultCard: React.FC<SearchResultCardProps> = ({
 
   // Create JSX for highlighted OCR text
   const highlightedOcrText = searchQuery 
-    ? highlightSearchTerms(truncateText(result.ocrText), searchQuery)
-    : truncateText(result.ocrText);
+    ? highlightSearchTerms(truncateText(result.ocrText || result.visualDescription), searchQuery)
+    : truncateText(result.ocrText || result.visualDescription);
+
+  // Match type color mapping
+  const matchTypeColors = {
+    'text': 'bg-blue-100 text-blue-800',
+    'visual': 'bg-green-100 text-green-800', 
+    'both': 'bg-purple-100 text-purple-800'
+  };
 
   return (
     <Card 
-      className={`hover:bg-background/80 transition-all duration-200 ease-in-out cursor-pointer 
-        border-muted/30 shadow-sm hover:shadow-md ${onClick ? 'hover:border-primary/50' : ''}`}
-      onClick={onClick}
+      className={`
+        hover:shadow-lg transition-all duration-300 ease-in-out 
+        cursor-pointer group border-gray-200 dark:border-gray-700 
+        max-w-sm w-full
+      `}
+      onClick={() => onClick(result)}
     >
-      <CardContent className="p-3 flex flex-col sm:flex-row gap-3">
-        {/* Image Preview */}
-        <div className="w-full sm:w-1/3 relative aspect-square overflow-hidden rounded-md bg-muted/20">
+      <CardContent className="p-4 space-y-3">
+        {/* Filename and Match Type */}
+        <div className="flex justify-between items-center">
+          <h3 className="font-semibold text-base truncate max-w-[70%]">
+            {result.filename}
+          </h3>
+          {showMatchType && (
+            <Badge 
+              variant="outline" 
+              className={`
+                text-xs px-2 py-1 rounded-full 
+                ${matchTypeColors[result.matchType]}
+              `}
+            >
+              {result.matchType.toUpperCase()}
+            </Badge>
+          )}
+        </div>
+
+        {/* Thumbnail Image */}
+        <div className="aspect-video relative w-full rounded-lg overflow-hidden">
           {imageError ? (
             <div className="flex flex-col items-center justify-center h-full text-muted">
               <AlertCircle size={24} className="mb-2" />
@@ -55,50 +85,40 @@ export const SearchResultCard: React.FC<SearchResultCardProps> = ({
               )}
               <Image 
                 src={result.imageUrl} 
-                alt={result.filename} 
+                alt={`Thumbnail for ${result.filename}`}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover transition-transform duration-300 hover:scale-105"
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
                 onError={() => setImageError(true)}
                 onLoad={() => setImageLoading(false)}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
               />
             </>
           )}
         </div>
 
-        {/* Result Details */}
-        <div className="flex-grow space-y-2">
-          <div className="flex justify-between items-start">
-            <h3 className="font-semibold text-base truncate max-w-[80%]">
-              {result.filename}
-            </h3>
-
-            {/* Badges */}
-            <div className="flex gap-2">
-              {showConfidence && (
-                <Badge 
-                  variant="outline" 
-                  className={`
-                    ${result.confidence > 0.8 ? 'bg-success/10 text-success' : 
-                      result.confidence > 0.5 ? 'bg-accent/10 text-accent' : 
-                      'bg-muted/10 text-muted'}
-                  `}
-                >
-                  {(result.confidence * 100).toFixed(0)}% Match
-                </Badge>
-              )}
-              
-              {showMatchType && (
-                <Badge variant="secondary" className="capitalize">
-                  {result.matchType} Match
-                </Badge>
-              )}
+        {/* Confidence Meter */}
+        {showConfidence && (
+          <div className="space-y-1">
+            <div className="flex justify-between text-xs text-gray-600">
+              <span>Confidence</span>
+              <span>{Math.round(result.confidence * 100)}%</span>
             </div>
+            <Progress 
+              value={result.confidence * 100} 
+              className="h-2 bg-gray-200" 
+            />
           </div>
+        )}
 
-          {/* OCR Text Preview */}
-          <p className="text-sm text-muted">
+        {/* Text Preview & Upload Date */}
+        <div className="space-y-1">
+          <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
             {highlightedOcrText}
+          </p>
+          <p className="text-xs text-gray-500">
+            {format(new Date(result.uploadedAt), 'MMM dd, yyyy')}
           </p>
         </div>
       </CardContent>

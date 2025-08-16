@@ -8,7 +8,7 @@ Generate a hackathon project context document from our plan. Format as markdown 
 * Package Manager: pnpm
 * Build Tool: Turbopack
 * Language: TypeScript
-* MCP Servers: Convex (local) + Puppeteer (local) + Vercel (hosted)
+* MCP Servers: Convex + Playwright + Vercel for Claude Code
 
 Please output a structured context document with:
 

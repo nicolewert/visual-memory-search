@@ -13,7 +13,7 @@ Visual Memory Search is a Next.js application that enables users to search throu
 * **Package Manager**: pnpm
 * **Build Tool**: Turbopack
 * **Language**: TypeScript
-* **MCP Servers**: Convex (local) + Puppeteer (local) + Vercel (hosted)
+* **MCP Servers**: Convex + Playwright, Vercel (global)
 * **AI Integration**: Claude API for visual analysis
 * **OCR Engine**: Tesseract.js
 * **File Processing**: Convex file storage
